@@ -1,72 +1,77 @@
-# Prédiction du Prix des Avions avec Machine Learning
+# Prédiction des Prix des Avions avec XGBoost
 
 ## Description du Projet
-Ce projet utilise l'apprentissage automatique pour prédire le prix des avions en fonction de divers paramètres. Un modèle de régression a été entraîné sur un ensemble de données contenant les prix historiques des avions. Une application web interactive a été développée avec Streamlit pour permettre aux utilisateurs de faire des prédictions en entrant les caractéristiques de l'avion.
+Ce projet vise à développer un modèle de machine learning capable de prédire le prix des avions en fonction de plusieurs caractéristiques telles que l'année de production, la capacité, le type de moteur, l'autonomie et les coûts d'entretien.
 
-## Fonctionnalités
-- Prétraitement des données et analyse exploratoire
-- Entraînement d'un modèle de régression
-- Sauvegarde et chargement du modèle ML
-- Interface utilisateur avec Streamlit
-- Prédiction en temps réel des prix des avions
+Le modèle choisi est **XGBoost**, un algorithme puissant de boosting d'arbres de décision, optimisé avec une recherche d'hyperparamètres.
 
-## Technologies Utilisées
-- Python
-- Pandas, NumPy, Scikit-learn
-- Matplotlib, Seaborn
-- Streamlit
-- Pickle (pour la sauvegarde du modèle)
+---
 
-## Installation
-### 1. Cloner le dépôt
+## Démarches et Techniques Utilisées
+### 1. **Prétraitement des Données**
+- Suppression des valeurs manquantes et gestion des valeurs extrêmes.
+- Transformation logarithmique des variables fortement asymétriques (prix, consommation de carburant, coût de maintenance).
+
+### 2. **Feature Engineering**
+- Ajout de nouvelles variables :
+  - **log_Consommation** : Transformation logarithmique de la consommation de carburant.
+  - **log_Cout_Maintenance** : Transformation logarithmique du coût de maintenance.
+  - **Prix_par_siege** : Rapport entre le prix et la capacité en sièges.
+  - **Efficacite** : Rapport entre l'autonomie et la consommation de carburant.
+
+### 3. **Encodage et Standardisation**
+- Encodage **One-Hot Encoding** pour les variables catégoriques.
+- Normalisation des variables numériques avec **StandardScaler**.
+
+### 4. **Modélisation avec XGBoost**
+- Optimisation des hyperparamètres avec **GridSearchCV**.
+- Entraînement du modèle sur 80% des données et test sur 20%.
+
+### 5. **Métriques d'évaluation**
+- **RMSE (Root Mean Squared Error)** : 2 923 850.80
+- **R² (Coefficient de détermination)** : 0.9998
+- **MAE (Mean Absolute Error)** : 1 054 933.99
+- **MAPE (Mean Absolute Percentage Error)** : 6.21%
+
+---
+
+## Interprétation des Résultats
+- **Le modèle est très performant**, expliquant **99.98 % de la variance des prix**.
+- Une erreur moyenne de **6.21 %**, ce qui signifie que le modèle prédit avec une grande précision.
+- Le tuning des hyperparamètres a permis de **réduire les erreurs et d'améliorer la généralisation**.
+
+---
+
+## Améliorations Possibles
+1. **Analyse des erreurs résiduelles** pour identifier les segments sous-performants.
+2. **Ajout de nouvelles features**, comme des données économiques influençant le prix des avions.
+3. **Test d'autres modèles** en combinaison avec XGBoost (ex : LightGBM, Random Forest).
+
+---
+
+## Installation et Exécution
+### 1. Cloner le dépôt :
 ```bash
-git clone https://github.com/votre-repo/prediction-prix-avions.git
-cd prediction-prix-avions
+git clone https://github.com/votre-repo.git
+cd votre-repo
 ```
 
-### 2. Créer et activer un environnement virtuel
-#### Sous Windows :
-```powershell
-python -m venv monenv
-monenv\Scripts\Activate.ps1
-```
-#### Sous Mac/Linux :
-```bash
-python3 -m venv monenv
-source monenv/bin/activate
-```
-
-### 3. Installer les dépendances
+### 2. Installer les dépendances :
 ```bash
 pip install -r requirements.txt
 ```
 
-## Utilisation
-### 1. Entraîner le modèle
-Exécutez le script pour entraîner et sauvegarder le modèle :
+### 3. Lancer le script d'entraînement :
 ```bash
-python train_model.py
+python train.py
 ```
 
-### 2. Lancer l'application Streamlit
-Démarrez l'interface utilisateur pour faire des prédictions :
-```bash
-streamlit run app.py
-```
+---
 
-## Structure du Projet
-```
-project/
-│── data/                 # Dossier contenant les données
-│── models/               # Dossier pour stocker le modèle entraîné
-│── app.py                # Application Streamlit
-│── train_model.py        # Script d'entraînement du modèle
-│── requirements.txt      # Liste des dépendances
-│── README.md             # Documentation du projet
-```
+## Auteurs
+- **Yonli Fidèle**
 
-## Auteur
-Yonli Fidèle
+---
 
 ## Licence
 Ce projet est sous licence MIT.
